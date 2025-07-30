@@ -13,7 +13,8 @@ struct CapstoneProjectApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for:Card.self)
+                .modelContainer(for: ToDoItem.self)
+                .modelContainer(for: Card.self)
         }
     }
 }

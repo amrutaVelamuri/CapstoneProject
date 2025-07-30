@@ -25,7 +25,7 @@ struct HomeScreenView: View {
                                 .padding()
                                 .foregroundColor(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
                             Spacer()
-                            NavigationLink(destination: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Destination@*/Text("Destination")/*@END_MENU_TOKEN@*/) {
+                            NavigationLink(destination: Text("to do list here")) {
                                 Text("See more")
                                     .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
                                     .padding(8.0)
@@ -40,26 +40,34 @@ struct HomeScreenView: View {
                     
                     VStack(spacing: -10) {
                         HStack(spacing: -10) {
-                            RoundedRectangle(cornerRadius: 20)
-                                .padding()
-                                .frame(height: 200.0)
-                                .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
-                            RoundedRectangle(cornerRadius: 20)
-                                .padding()
-                                .frame(height:200.0)
-                                .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                            NavigationLink(destination: Text("Flashcards here")) {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .padding()
+                                    .frame(height: 195.0)
+                                    .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                            }
+                            NavigationLink(destination: Text("Planner")) {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .padding()
+                                    .frame(height:195.0)
+                                    .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                            }
                         }
                         .padding(.horizontal)
                         
                         HStack(spacing: -10) {
-                            RoundedRectangle(cornerRadius: 20)
-                                .padding()
-                                .frame(height:200.0)
-                                .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
-                            RoundedRectangle(cornerRadius: 20)
-                                .padding()
-                                .frame(height:200.0)
-                                .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                            NavigationLink(destination: Text("blank")) {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .padding()
+                                    .frame(height:195.0)
+                                    .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                            }
+                            NavigationLink(destination: Text("blank")) {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .padding()
+                                    .frame(height:195.0)
+                                    .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                            }
                         }
                         .padding(.horizontal)
                     }

@@ -1,11 +1,9 @@
 //
-//  ContentView 2.swift
+//  Contentview.swift
 //  CapstoneProject
 //
 //  Created by Ámbar Aguilar Sánchez on 30/07/25.
 //
-
-
 import SwiftUI
 import SwiftData
 
@@ -50,7 +48,7 @@ struct ContentView2: View {
                 }
                 .scrollContentBackground(.hidden)
                 .padding(.horizontal)
-                .navigationTitle("Planner!!")
+                .navigationTitle("Planner! :)")
 
                 .safeAreaInset(edge: .bottom) {
                     VStack(alignment: .center, spacing: 20) {
@@ -95,3 +93,4 @@ struct ContentView2: View {
     ContentView2()
         .modelContainer(for: plannerItem.self, inMemory: true)
 }
+

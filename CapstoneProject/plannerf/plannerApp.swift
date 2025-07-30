@@ -1,8 +1,8 @@
 //
-//  CapstoneProjectApp.swift
+//  plannerApp.swift
 //  CapstoneProject
 //
-//  Created by Amruta Velamuri on 7/29/25.
+//  Created by Ámbar Aguilar Sánchez on 30/07/25.
 //
 import SwiftUI
 import SwiftData
@@ -11,7 +11,7 @@ import SwiftData
 struct plannerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView2()
                 .modelContainer(for: plannerItem.self)
         }
     }

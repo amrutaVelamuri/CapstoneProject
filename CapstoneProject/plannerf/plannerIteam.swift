@@ -4,7 +4,6 @@
 //
 //  Created by Ámbar Aguilar Sánchez on 30/07/25.
 //
-
 import Foundation
 import Foundation
 import SwiftData
@@ -21,4 +20,5 @@ class plannerItem {
         self.isDone = isDone
     }
 }
+
 

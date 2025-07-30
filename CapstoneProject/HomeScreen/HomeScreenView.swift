@@ -25,7 +25,7 @@ struct HomeScreenView: View {
                                 .padding()
                                 .foregroundColor(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
                             Spacer()
-                            NavigationLink(destination: Text("to do list here")) {
+                            NavigationLink(destination: ToDoList()) {
                                 Text("See more")
                                     .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
                                     .padding(8.0)
@@ -40,7 +40,7 @@ struct HomeScreenView: View {
                     
                     VStack(spacing: -10) {
                         HStack(spacing: -10) {
-                            NavigationLink(destination: Text("Flashcards here")) {
+                            NavigationLink(destination: FlashcardDeckView()) {
                                 RoundedRectangle(cornerRadius: 20)
                                     .padding()
                                     .frame(height: 195.0)

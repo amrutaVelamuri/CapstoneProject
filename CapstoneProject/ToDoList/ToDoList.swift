@@ -14,7 +14,7 @@ struct ToDoList: View {
     @Environment(\.modelContext) var modelContext
     var body: some View {
         VStack {
-            HStack {
+            HStack() {
                 Text("To Do List")
                     .font(.system(size:40))
                     .fontWeight(.black)
@@ -33,11 +33,14 @@ struct ToDoList: View {
         .padding()
         Spacer()
         List {
-            ForEach(toDos) { toDoItem in
+            ForEach(toDos) { toDoItem in HStack {
                 if toDoItem.isImportant {
                     Text("‼️" + toDoItem.title)
                 } else {
                     Text(toDoItem.title)
+                }
+                Spacer()
+                Text(toDoItem.dueDate, format: .dateTime.month().day().year())
                 }
             }
             .onDelete(perform: deleteToDo)
@@ -45,7 +48,7 @@ struct ToDoList: View {
         .listStyle(.plain)
         
         if showNewTask {
-            NewToDo(showNewTask: $showNewTask, toDoItem: ToDoItem(title: "", isImportant: false))
+            NewToDo(showNewTask: $showNewTask, toDoItem: ToDoItem(title: "", isImportant: false, dueDate: Date.now))
         }
     }
     func deleteToDo(at offsets: IndexSet) {

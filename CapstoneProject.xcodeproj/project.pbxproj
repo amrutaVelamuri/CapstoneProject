@@ -6,13 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		ABCD7B942E3943EB00720727 /* Flashcards.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCD7B932E3943EB00720727 /* Flashcards.swift */; };
-		ABCD7B962E39454800720727 /* card.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCD7B952E39454800720727 /* card.swift */; };
-		ABCD7B982E394B3F00720727 /* FlashcardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCD7B972E394B3F00720727 /* FlashcardListView.swift */; };
-		ABCD7BA62E39626000720727 /* FlashcardDeckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCD7BA52E39626000720727 /* FlashcardDeckView.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		ABCD7B772E3937B000720727 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -34,10 +27,6 @@
 		ABCD7B692E3937AF00720727 /* CapstoneProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CapstoneProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABCD7B762E3937B000720727 /* CapstoneProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CapstoneProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABCD7B802E3937B000720727 /* CapstoneProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CapstoneProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		ABCD7B932E3943EB00720727 /* Flashcards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flashcards.swift; sourceTree = "<group>"; };
-		ABCD7B952E39454800720727 /* card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = card.swift; sourceTree = "<group>"; };
-		ABCD7B972E394B3F00720727 /* FlashcardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardListView.swift; sourceTree = "<group>"; };
-		ABCD7BA52E39626000720727 /* FlashcardDeckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardDeckView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -86,10 +75,6 @@
 		ABCD7B602E3937AE00720727 = {
 			isa = PBXGroup;
 			children = (
-				ABCD7B932E3943EB00720727 /* Flashcards.swift */,
-				ABCD7BA52E39626000720727 /* FlashcardDeckView.swift */,
-				ABCD7B972E394B3F00720727 /* FlashcardListView.swift */,
-				ABCD7B952E39454800720727 /* card.swift */,
 				ABCD7B6B2E3937AF00720727 /* CapstoneProject */,
 				ABCD7B792E3937B000720727 /* CapstoneProjectTests */,
 				ABCD7B832E3937B000720727 /* CapstoneProjectUITests */,
@@ -251,10 +236,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABCD7BA62E39626000720727 /* FlashcardDeckView.swift in Sources */,
-				ABCD7B942E3943EB00720727 /* Flashcards.swift in Sources */,
-				ABCD7B982E394B3F00720727 /* FlashcardListView.swift in Sources */,
-				ABCD7B962E39454800720727 /* card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

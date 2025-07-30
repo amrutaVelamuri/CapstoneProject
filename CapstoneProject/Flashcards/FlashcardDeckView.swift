@@ -8,6 +8,10 @@ struct FlashcardDeckView: View {
     @State private var currentIndex = 0
     @State private var showNewFlashcard = false
 
+    // Theme colors
+    let backgroundColor = Color(hue: 0.119, saturation: 0.092, brightness: 1.0)  // pale yellow
+    let cardColor = Color(hue: 0.079, saturation: 0.389, brightness: 0.423)       // brown
+
     var body: some View {
         NavigationView {
             VStack(spacing: 24) {
@@ -17,7 +21,10 @@ struct FlashcardDeckView: View {
                         .foregroundColor(.gray)
                 } else {
                     Flashcards(card: cards[currentIndex])
-
+                        .background(cardColor)
+                        .cornerRadius(20)
+                        .padding()
+                    
                     HStack {
                         Button(action: {
                             if currentIndex > 0 {
@@ -26,6 +33,7 @@ struct FlashcardDeckView: View {
                         }) {
                             Image(systemName: "chevron.left")
                                 .font(.title2)
+                                .foregroundColor(cardColor)
                         }
                         .disabled(currentIndex == 0)
 
@@ -48,6 +56,7 @@ struct FlashcardDeckView: View {
                         }) {
                             Image(systemName: "chevron.right")
                                 .font(.title2)
+                                .foregroundColor(cardColor)
                         }
                         .disabled(currentIndex == cards.count - 1)
                     }
@@ -61,6 +70,7 @@ struct FlashcardDeckView: View {
                 Spacer()
             }
             .padding()
+            .background(backgroundColor.ignoresSafeArea())
             .navigationTitle("Flashcards")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -68,6 +78,7 @@ struct FlashcardDeckView: View {
                         showNewFlashcard = true
                     } label: {
                         Image(systemName: "plus")
+                            .foregroundColor(cardColor)
                     }
                 }
             }

@@ -14,6 +14,7 @@ struct CapstoneProjectApp: App {
         WindowGroup {
             ContentView()
                 .modelContainer(for: ToDoItem.self)
+                .modelContainer(for: Card.self)
         }
     }
 }

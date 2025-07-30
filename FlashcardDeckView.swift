@@ -8,75 +8,85 @@ struct FlashcardDeckView: View {
     @State private var currentIndex = 0
     @State private var showNewFlashcard = false
 
+    let backgroundColor = Color(hue: 0.119, saturation: 0.092, brightness: 1.0)
+    let cardColor = Color(hue: 0.079, saturation: 0.389, brightness: 0.423)
+
     var body: some View {
-        NavigationView {
-            VStack(spacing: 24) {
-                if cards.isEmpty {
-                    Text("No flashcards yet.")
-                        .font(.title2)
-                        .foregroundColor(.gray)
-                } else {
-                    Flashcards(card: cards[currentIndex])
+        NavigationStack {
+            ZStack {
+                backgroundColor.ignoresSafeArea()
 
-                    HStack {
-                        Button(action: {
-                            if currentIndex > 0 {
-                                currentIndex -= 1
+                VStack(spacing: 24) {
+                    if cards.isEmpty {
+                        Text("No flashcards yet.")
+                            .font(.title2)
+                            .foregroundColor(.gray)
+                    } else {
+                        Flashcards(card: cards[currentIndex]) // ✅ your flipping view
+
+                        HStack {
+                            Button {
+                                if currentIndex > 0 {
+                                    currentIndex -= 1
+                                }
+                            } label: {
+                                Image(systemName: "chevron.left")
+                                    .font(.title2)
+                                    .foregroundColor(.primary)
                             }
-                        }) {
-                            Image(systemName: "chevron.left")
-                                .font(.title2)
+                            .disabled(currentIndex == 0)
+
+                            Spacer()
+
+                            Button(role: .destructive) {
+                                deleteCard(at: IndexSet(integer: currentIndex))
+                            } label: {
+                                Image(systemName: "trash")
+                                    .font(.title2)
+                                    .foregroundStyle(.red)
+                            }
+
+                            Spacer()
+
+                            Button {
+                                if currentIndex < cards.count - 1 {
+                                    currentIndex += 1
+                                }
+                            } label: {
+                                Image(systemName: "chevron.right")
+                                    .font(.title2)
+                                    .foregroundColor(.primary)
+                            }
+                            .disabled(currentIndex == cards.count - 1)
                         }
-                        .disabled(currentIndex == 0)
+                        .padding(.horizontal, 40)
 
-                        Spacer()
+                        Text("Card \(currentIndex + 1) of \(cards.count)")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
 
-                        Button(role: .destructive) {
-                            deleteCard(at: IndexSet(integer: currentIndex))
+                    Spacer()
+                }
+                .padding()
+                .navigationTitle("Flashcards")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            showNewFlashcard = true
                         } label: {
-                            Image(systemName: "trash")
-                                .font(.title2)
-                                .foregroundStyle(.red)
+                            Image(systemName: "plus")
+                                .foregroundColor(cardColor)
                         }
-
-                        Spacer()
-
-                        Button(action: {
-                            if currentIndex < cards.count - 1 {
-                                currentIndex += 1
-                            }
-                        }) {
-                            Image(systemName: "chevron.right")
-                                .font(.title2)
-                        }
-                        .disabled(currentIndex == cards.count - 1)
-                    }
-                    .padding(.horizontal, 40)
-
-                    Text("Card \(currentIndex + 1) of \(cards.count)")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                }
-
-                Spacer()
-            }
-            .padding()
-            .navigationTitle("Flashcards")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        showNewFlashcard = true
-                    } label: {
-                        Image(systemName: "plus")
                     }
                 }
-            }
-            .sheet(isPresented: $showNewFlashcard, onDismiss: {
-                if currentIndex >= cards.count {
-                    currentIndex = max(0, cards.count - 1)
+                .sheet(isPresented: $showNewFlashcard, onDismiss: {
+                    if currentIndex >= cards.count {
+                        currentIndex = max(0, cards.count - 1)
+                    }
+                }) {
+                    FlashcardListView(showNewFlashcard: $showNewFlashcard)
                 }
-            }) {
-                FlashcardListView(showNewFlashcard: $showNewFlashcard)
             }
         }
     }
@@ -93,19 +103,13 @@ struct FlashcardDeckView: View {
 }
 
 #Preview {
-    do {
-        let container = try ModelContainer(
-            for: Card.self,
-            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-        )
+    let container = try! ModelContainer(
+        for: Card.self,
+        configurations: .init(isStoredInMemoryOnly: true)
+    )
+    let context = container.mainContext
+    context.insert(Card(question: "What is the capital of France?", answer: "Paris"))
+    context.insert(Card(question: "What is 9 × 6?", answer: "54"))
 
-        let context = container.mainContext
-        context.insert(Card(question: "What is the capital of France?", answer: "Paris"))
-        context.insert(Card(question: "What is 9 × 6?", answer: "54"))
-
-        return FlashcardDeckView()
-            .modelContainer(container)
-    } catch {
-        return Text("Preview Error: \(error.localizedDescription)")
-    }
+    return FlashcardDeckView().modelContainer(container)
 }

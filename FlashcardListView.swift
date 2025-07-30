@@ -8,24 +8,45 @@ struct FlashcardListView: View {
     @State private var question = ""
     @State private var answer = ""
 
+    let cardColor = Color(hue: 0.079, saturation: 0.389, brightness: 0.423) // brown
+    let backgroundColor = Color(hue: 0.119, saturation: 0.092, brightness: 1.0) // yellow
+
     var body: some View {
         VStack {
             Text("New Flashcard")
                 .font(.title)
                 .fontWeight(.bold)
+                .padding(.top)
 
-            TextField("Enter the question", text: $question)
-                .padding()
-                .background(Color(.systemGroupedBackground))
-                .cornerRadius(15)
-                .padding(.horizontal)
+            ZStack(alignment: .leading) {
+                if question.isEmpty {
+                    Text("Enter the question")
+                        .foregroundColor(backgroundColor)
+                        .padding(.horizontal, 16)
+                }
+                TextField("", text: $question)
+                    .padding()
+                    .foregroundColor(.white)
+            }
+            .background(cardColor)
+            .cornerRadius(15)
+            .padding(.horizontal)
 
-            TextField("Enter the answer", text: $answer)
-                .padding()
-                .background(Color(.systemGroupedBackground))
-                .cornerRadius(15)
-                .padding(.horizontal)
+            ZStack(alignment: .leading) {
+                if answer.isEmpty {
+                    Text("Enter the answer")
+                        .foregroundColor(backgroundColor)
+                        .padding(.horizontal, 16)
+                }
+                TextField("", text: $answer)
+                    .padding()
+                    .foregroundColor(.white)
+            }
+            .background(cardColor)
+            .cornerRadius(15)
+            .padding(.horizontal)
 
+            // Save button
             Button {
                 addFlashcard()
                 showNewFlashcard = false
@@ -41,10 +62,12 @@ struct FlashcardListView: View {
             .padding()
         }
         .padding()
+        .background(backgroundColor)
+        .ignoresSafeArea(edges: .bottom)
     }
 
     func addFlashcard() {
         let newCard = Card(question: question, answer: answer)
-        context.insert(newCard) 
+        context.insert(newCard)
     }
 }

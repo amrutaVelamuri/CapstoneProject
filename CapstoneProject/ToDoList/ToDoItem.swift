@@ -12,9 +12,11 @@ import SwiftData
 class ToDoItem {
     var title: String
     var isImportant: Bool
+    var dueDate: Date
     
-    init(title: String, isImportant: Bool) {
+    init(title: String, isImportant: Bool, dueDate: Date) {
         self.title = title
         self.isImportant = isImportant
+        self.dueDate = dueDate
     }
 }

@@ -7,8 +7,8 @@
 import SwiftUI
 import SwiftData
 
-struct ContentView2: View {
-    @Query private var planner: [plannerItem]
+struct PlannerView: View {
+    @Query private var planner: [PlannerItem]
     @Environment(\.modelContext) private var context
     @State private var newTask = ""
     @State private var newDate = Date.now
@@ -66,7 +66,7 @@ struct ContentView2: View {
 
                         Button("Save") {
                             guard !newTask.isEmpty else { return }
-                            let newItem = plannerItem(task: newTask, date: newDate)
+                            let newItem = PlannerItem(task: newTask, date: newDate)
                             context.insert(newItem)
                             newTask = ""
                             newDate = .now
@@ -94,7 +94,7 @@ struct ContentView2: View {
 }
 
 #Preview {
-    ContentView2()
-        .modelContainer(for: plannerItem.self, inMemory: true)
+    PlannerView()
+        .modelContainer(for: PlannerItem.self, inMemory: true)
 }
 

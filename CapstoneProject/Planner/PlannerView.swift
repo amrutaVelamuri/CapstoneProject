@@ -11,52 +11,58 @@ struct PlannerView: View {
     @State private var newDate = Date.now
     @State private var newTime = Date()
 
-    let paleYellow = Color(hue: 0.135, saturation: 0.29, brightness: 1.0)
+    let paleYellow = Color(hue: 0.119, saturation: 0.092, brightness: 1.0)
+    let brown = Color(hue: 0.079, saturation: 0.389, brightness: 0.423)
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                CalendarHeader(currentMonth: $currentMonth)
-                CalendarGrid(selectedDate: $selectedDate, currentMonth: $currentMonth, planner: planner)
+            ScrollView {
+                VStack(spacing: 0) {
+                    CalendarHeader(currentMonth: $currentMonth, brown: brown)
+                    CalendarGrid(
+                        selectedDate: $selectedDate,
+                        currentMonth: $currentMonth,
+                        planner: planner,
+                        paleYellow: paleYellow,
+                        brown: brown
+                    )
 
-                Text("Tasks for \(selectedDate.formatted(date: .abbreviated, time: .omitted))")
-                    .font(.headline)
-                    .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
-                    .padding(.top)
+                    Text("Tasks for \(selectedDate.formatted(date: .abbreviated, time: .omitted))")
+                        .font(.headline)
+                        .foregroundColor(brown)
+                        .padding(.top)
 
-                List {
-                    ForEach(tasksForSelectedDate) { item in
-                        HStack {
-                            Button {
-                                item.isDone.toggle()
-                            } label: {
-                                Image(systemName: item.isDone ? "checkmark.circle.fill" : "circle")
-                                    .foregroundColor(item.isDone ? .yellow : .white)
+                    VStack(spacing: 10) {
+                        ForEach(tasksForSelectedDate) { item in
+                            HStack {
+                                Button {
+                                    item.isDone.toggle()
+                                } label: {
+                                    Image(systemName: item.isDone ? "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(item.isDone ? paleYellow : .white)
+                                }
+
+                                VStack(alignment: .leading) {
+                                    Text(item.task)
+                                        .strikethrough(item.isDone)
+                                        .foregroundColor(item.isDone ? .gray : .black)
+
+                                    Text(item.date.formatted(date: .abbreviated, time: .omitted))
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                }
+                                Spacer()
                             }
-
-                            VStack(alignment: .leading) {
-                                Text(item.task)
-                                    .strikethrough(item.isDone)
-                                    .foregroundColor(item.isDone ? .gray : .black)
-
-                                Text(item.date.formatted(date: .abbreviated, time: .omitted))
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
-                            Spacer()
+                            .padding()
+                            .background(Color.white.opacity(0.2))
+                            .cornerRadius(10)
                         }
-                        .padding()
-                        .background(Color.white.opacity(0.2))
-                        .cornerRadius(10)
                     }
-                    .onDelete(perform: deleteplannerItem)
-                }
-                .listRowBackground(paleYellow)
-                .scrollContentBackground(.hidden)
-                .background(paleYellow)
-                .padding(.bottom)
+                    .padding(.horizontal)
 
-                .safeAreaInset(edge: .bottom) {
+                    Divider()
+                        .padding(.vertical)
+
                     VStack(alignment: .center, spacing: 20) {
                         Text("New Task")
                             .font(.headline)
@@ -97,11 +103,14 @@ struct PlannerView: View {
                         .foregroundColor(.black)
                     }
                     .padding()
-                    .background(Color.brown)
+                    .background(brown)
+                    .cornerRadius(15)
+                    .padding(.horizontal)
+                    .padding(.bottom)
                 }
             }
+            .background(paleYellow.ignoresSafeArea())
             .navigationTitle("Planner")
-            .background(paleYellow.ignoresSafeArea()) // ✅ Full-screen pale yellow background
         }
     }
 
@@ -119,6 +128,7 @@ struct PlannerView: View {
 
 struct CalendarHeader: View {
     @Binding var currentMonth: Date
+    let brown: Color
 
     var body: some View {
         let calendar = Calendar.current
@@ -131,7 +141,7 @@ struct CalendarHeader: View {
                 currentMonth = calendar.date(byAdding: .month, value: -1, to: currentMonth) ?? currentMonth
             } label: {
                 Image(systemName: "chevron.left")
-                    .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                    .foregroundColor(brown)
             }
 
             Spacer()
@@ -139,7 +149,7 @@ struct CalendarHeader: View {
             Text("\(calendar.monthSymbols[month - 1]) \(year)")
                 .font(.title2)
                 .bold()
-                .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                .foregroundColor(brown)
 
             Spacer()
 
@@ -147,7 +157,7 @@ struct CalendarHeader: View {
                 currentMonth = calendar.date(byAdding: .month, value: 1, to: currentMonth) ?? currentMonth
             } label: {
                 Image(systemName: "chevron.right")
-                    .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                    .foregroundColor(brown)
             }
         }
         .padding(.horizontal)
@@ -158,6 +168,8 @@ struct CalendarGrid: View {
     @Binding var selectedDate: Date
     @Binding var currentMonth: Date
     let planner: [PlannerItem]
+    let paleYellow: Color
+    let brown: Color
 
     let calendar = Calendar.current
     let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -173,7 +185,7 @@ struct CalendarGrid: View {
             ForEach(days, id: \.self) { day in
                 Text(day)
                     .font(.subheadline)
-                    .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                    .foregroundColor(brown)
             }
 
             ForEach(0..<(offset < 0 ? offset + 7 : offset), id: \.self) { _ in
@@ -189,14 +201,14 @@ struct CalendarGrid: View {
                     .frame(maxWidth: .infinity, minHeight: 30)
                     .padding(8)
                     .background(
-                        isSelected ? Color(hue: 0.079, saturation: 0.389, brightness: 0.423) :
+                        isSelected ? brown :
                             (hasTasks ? Color.black.opacity(0.1) : Color.clear)
                     )
                     .clipShape(Circle())
                     .onTapGesture {
                         selectedDate = date
                     }
-                    .foregroundColor(isSelected ? Color(hue: 0.119, saturation: 0.092, brightness: 1.0) : .black)
+                    .foregroundColor(isSelected ? paleYellow : .black)
             }
         }
         .padding(.horizontal)

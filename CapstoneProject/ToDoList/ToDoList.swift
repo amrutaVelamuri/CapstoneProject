@@ -42,18 +42,18 @@ struct ToDoList: View {
                 .padding()
                 Spacer()
                 List {
-                    ForEach(toDos) { toDoItem in
+                    ForEach(toDos) { toDoItem in HStack {
                         if toDoItem.isImportant {
                             Text("‼️" + toDoItem.title)
-                            .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                                .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
                         } else {
                             Text(toDoItem.title)
-                            .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                                .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
                         }
                         Spacer()
                         Text(toDoItem.dueDate, format: .dateTime.month().day().year())
-                        .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423).opacity(0.8))
-                        
+                            .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423).opacity(0.8))
+                        }
                         .padding()
                         .background(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
                         .cornerRadius(10)

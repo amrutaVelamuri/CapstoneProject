@@ -13,7 +13,7 @@ class PlannerItem {
     var task: String
     var date: Date
     var time: Date
-    var isDone: Bool = false
+    var isDone: Bool
 
     init(task: String, date: Date, time: Date, isDone: Bool = false) {
         self.task = task
@@ -22,5 +22,3 @@ class PlannerItem {
         self.isDone = isDone
     }
 }
-
-

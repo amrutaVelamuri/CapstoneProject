@@ -6,10 +6,13 @@ struct PlannerView: View {
     @Environment(\.modelContext) private var context
 
     @State private var newTask = ""
+<<<<<<< HEAD:CapstoneProject/plannerf/Contentview.swift
     @State private var selectedDate = Date.now
     @State private var currentMonth: Date = Date.now
+=======
     @State private var newDate = Date.now
     @State private var newTime = Date()
+>>>>>>> main:CapstoneProject/Planner/PlannerView.swift
 
     var body: some View {
         NavigationStack {
@@ -51,6 +54,7 @@ struct PlannerView: View {
                     }
                 }
                 .scrollContentBackground(.hidden)
+<<<<<<< HEAD:CapstoneProject/plannerf/Contentview.swift
                 .background(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
 
                 VStack(spacing: 12) {
@@ -64,25 +68,59 @@ struct PlannerView: View {
 
                     Button("Save") {
                         guard !newTask.isEmpty else { return }
-                        let newItem = PlannerItem(task: newTask, date: selectedDate)
+                        let newItem = plannerItem(task: newTask, date: selectedDate)
                         context.insert(newItem)
                         newTask = ""
+=======
+                .background(Color(hue: 0.135, saturation: 0.29, brightness: 1.0))
+                .navigationTitle("Planner!!")
+
+                .safeAreaInset(edge: .bottom) {
+                    VStack(alignment: .center, spacing: 20) {
+                        Text("New Task")
+                            .font(.headline)
+                            .foregroundColor(.yellow)
+
+                        TextField("Task", text: $newTask)
+                            .textFieldStyle(.roundedBorder)
+
+                        DatePicker("Date", selection: $newDate, displayedComponents: .date)
+                            .foregroundColor(.yellow)
+                        DatePicker("Hour", selection: $newTime, displayedComponents: .hourAndMinute)
+                            .foregroundColor(.yellow)
+                        
+
+                        Button("Save") {
+                            guard !newTask.isEmpty else { return }
+                            let newItem = PlannerItem(task: newTask, date: newDate, time: newTime)
+                            context.insert(newItem)
+                            newTask = ""
+                            newDate = .now
+                        }
+                        .bold()
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .foregroundColor(.black)
+>>>>>>> main:CapstoneProject/Planner/PlannerView.swift
                     }
                     .bold()
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.white)
+                    .background(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
                     .cornerRadius(10)
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
                 }
                 .padding()
             }
+            .padding()
+            .background(Color(hue: 0.119, saturation: 0.092, brightness: 1.0).ignoresSafeArea())
             .navigationTitle("Planner Calendar")
-            .background(Color(hue: 0.135, saturation: 0.29, brightness: 1.0).ignoresSafeArea())
         }
     }
 
-    var tasksForSelectedDate: [PlannerItem] {
+    var tasksForSelectedDate: [plannerItem] {
         planner.filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }
     }
 }
@@ -127,7 +165,7 @@ struct CalendarHeader: View {
 struct CalendarGrid: View {
     @Binding var selectedDate: Date
     @Binding var currentMonth: Date
-    let planner: [PlannerItem]
+    let planner: [plannerItem]
 
     let calendar = Calendar.current
     let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -160,7 +198,7 @@ struct CalendarGrid: View {
                     .padding(8)
                     .background(
                         isSelected ? Color(hue: 0.079, saturation: 0.389, brightness: 0.423) :
-                            (hasTasks ? Color.black.opacity(0.1) : Color.clear)
+                        (hasTasks ? Color.black.opacity(0.1) : Color.clear)
                     )
                     .clipShape(Circle())
                     .onTapGesture {
@@ -178,3 +216,8 @@ struct CalendarGrid: View {
     PlannerView()
         .modelContainer(for: PlannerItem.self, inMemory: true)
 }
+<<<<<<< HEAD:CapstoneProject/plannerf/Contentview.swift
+=======
+
+
+>>>>>>> main:CapstoneProject/Planner/PlannerView.swift

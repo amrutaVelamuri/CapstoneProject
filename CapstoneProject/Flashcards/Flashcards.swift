@@ -26,7 +26,7 @@ struct Flashcards: View {
                 .padding()
         }
         .padding()
-        .onChange(of: card) {
+        .onChange(of: card) { _ in
             isFlipped = false
         }
     }

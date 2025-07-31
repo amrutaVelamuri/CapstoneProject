@@ -12,6 +12,7 @@ struct PlannerView: View {
     @Environment(\.modelContext) private var context
     @State private var newTask = ""
     @State private var newDate = Date.now
+    @State private var newTime = Date()
 
     var body: some View {
         ZStack {
@@ -49,7 +50,7 @@ struct PlannerView: View {
                 .padding(.bottom)
                 .scrollContentBackground(.hidden)
                 .background(Color(hue: 0.135, saturation: 0.29, brightness: 1.0))
-                .navigationTitle("Planner!!:)")
+                .navigationTitle("Planner!!")
 
                 .safeAreaInset(edge: .bottom) {
                     VStack(alignment: .center, spacing: 20) {
@@ -62,11 +63,13 @@ struct PlannerView: View {
 
                         DatePicker("Date", selection: $newDate, displayedComponents: .date)
                             .foregroundColor(.yellow)
+                        DatePicker("Hour", selection: $newTime, displayedComponents: .hourAndMinute)
+                            .foregroundColor(.yellow)
                         
 
                         Button("Save") {
                             guard !newTask.isEmpty else { return }
-                            let newItem = PlannerItem(task: newTask, date: newDate)
+                            let newItem = PlannerItem(task: newTask, date: newDate, time: newTime)
                             context.insert(newItem)
                             newTask = ""
                             newDate = .now
@@ -97,4 +100,5 @@ struct PlannerView: View {
     PlannerView()
         .modelContainer(for: PlannerItem.self, inMemory: true)
 }
+
 

@@ -12,11 +12,13 @@ import SwiftData
 class PlannerItem {
     var task: String
     var date: Date
-    var isDone: Bool
+    var time: Date
+    var isDone: Bool = false
 
-    init(task: String, date: Date, isDone: Bool = false) {
+    init(task: String, date: Date, time: Date, isDone: Bool = false) {
         self.task = task
         self.date = date
+        self.time = time
         self.isDone = isDone
     }
 }

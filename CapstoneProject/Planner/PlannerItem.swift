@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class plannerItem {
+class PlannerItem {
     var task: String
     var date: Date
     var isDone: Bool

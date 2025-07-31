@@ -14,7 +14,6 @@ struct plannerApp: App {
             ContentView()
                 .modelContainer(for: ToDoItem.self)
                 .modelContainer(for: Card.self)
-            PlannerView()
                 .modelContainer(for: PlannerItem.self)
         }
     }

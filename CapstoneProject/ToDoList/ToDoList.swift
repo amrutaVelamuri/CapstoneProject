@@ -7,21 +7,22 @@
 
 import SwiftUI
 import SwiftData
-
-@Query var toDos: [ToDoItem]
+//Color(hue: 0.119, saturation: 0.092, brightness: 1.0)
+//Color(hue: 0.079, saturation: 0.389, brightness: 0.423)
 struct ToDoList: View {
     @State private var showNewTask = false
+    @Query var toDos: [ToDoItem]
     @Environment(\.modelContext) var modelContext
     var body: some View {
         ZStack {
-            Color(hue: 0.119, saturation: 0.092, brightness: 1.0)
+            Color(hue: 0.079, saturation: 0.389, brightness: 0.423)
                 .ignoresSafeArea()
             VStack {
                 HStack() {
                     Text("To Do List")
                         .font(.system(size:40))
                         .fontWeight(.black)
-                        .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                        .foregroundColor(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
                     
                     Spacer()
                     Button {
@@ -33,7 +34,7 @@ struct ToDoList: View {
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
-                        .padding(8)
+                        .padding(12)
                         .background(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
                         .cornerRadius(10)
                     }
@@ -41,34 +42,34 @@ struct ToDoList: View {
                 .padding()
                 Spacer()
                 List {
-                    ForEach(toDos) { toDoItem in HStack {
+                    ForEach(toDos) { toDoItem in
                         if toDoItem.isImportant {
                             Text("‼️" + toDoItem.title)
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
                         } else {
                             Text(toDoItem.title)
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
                         }
                         Spacer()
                         Text(toDoItem.dueDate, format: .dateTime.month().day().year())
-                        .foregroundColor(.white.opacity(0.8))
-                        }
+                        .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423).opacity(0.8))
+                        
                         .padding()
-                        .background(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                        .background(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
                         .cornerRadius(10)
                     }
                     .onDelete(perform: deleteToDo)
                 }
                 .listStyle(.plain)
-                .background(Color.clear)
+                .background(Color.white)
                 if showNewTask {
                     NewToDo(showNewTask: $showNewTask, toDoItem: ToDoItem(title: "", isImportant: false, dueDate: Date.now))
                         .padding()
                         .background(
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color(hue: 0.079, saturation: 0.389, brightness: 0.423), lineWidth: 3)
+                            Rectangle()
+                                .fill(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
+                                .ignoresSafeArea()
                         )
-                        .padding(.horizontal)
                 }
             }
         }
@@ -80,7 +81,7 @@ struct ToDoList: View {
         }
     }
 }
-
+//var toDoList = ToDoList()
 #Preview {
     ToDoList()
         .modelContainer(for: ToDoItem.self, inMemory: true)

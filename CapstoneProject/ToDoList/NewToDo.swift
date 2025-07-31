@@ -21,7 +21,6 @@ struct NewToDo: View {
                 TextField("Enter the task description", text: $toDoItem.title, axis: .vertical)
                     .padding(7.0)
                     .background(Color(.systemGroupedBackground))
-                    .cornerRadius(8)
             }
             
             Toggle(isOn: $toDoItem.isImportant) {

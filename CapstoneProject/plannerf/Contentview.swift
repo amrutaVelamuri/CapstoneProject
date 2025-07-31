@@ -49,7 +49,7 @@ struct ContentView2: View {
                 .padding(.bottom)
                 .scrollContentBackground(.hidden)
                 .background(Color(hue: 0.135, saturation: 0.29, brightness: 1.0))
-                .navigationTitle("Planner!!")
+                .navigationTitle("Planner!!:)")
 
                 .safeAreaInset(edge: .bottom) {
                     VStack(alignment: .center, spacing: 20) {

@@ -11,8 +11,14 @@ import SwiftData
 struct plannerApp: App {
     var body: some Scene {
         WindowGroup {
+<<<<<<< HEAD:CapstoneProject/plannerf/plannerApp.swift
             ContentView2()
                 .modelContainer(for: plannerItem.self)
+=======
+            ContentView()
+                .modelContainer(for: ToDoItem.self)
+                .modelContainer(for: Card.self)
+>>>>>>> main:CapstoneProject/CapstoneProjectApp.swift
         }
     }
 }

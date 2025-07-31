@@ -13,42 +13,64 @@ struct ToDoList: View {
     @Query var toDos: [ToDoItem]
     @Environment(\.modelContext) var modelContext
     var body: some View {
-        VStack {
-            HStack() {
-                Text("To Do List")
-                    .font(.system(size:40))
-                    .fontWeight(.black)
-                Spacer()
-                Button {
-                    withAnimation {
-                        showNewTask = true
-                    }
-                } label: {
-                    Text("+")
+        ZStack {
+            Color(hue: 0.119, saturation: 0.092, brightness: 1.0)
+                .ignoresSafeArea()
+            VStack {
+                HStack() {
+                    Text("To Do List")
+                        .font(.system(size:40))
+                        .fontWeight(.black)
+                        .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                    
+                    Spacer()
+                    Button {
+                        withAnimation {
+                            showNewTask = true
+                        }
+                    } label: {
+                        Text("+")
                         .font(.title)
                         .fontWeight(.bold)
+                        .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                        .padding(8)
+                        .background(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
+                        .cornerRadius(10)
+                    }
                 }
-            }
-        }
-        .padding()
-        Spacer()
-        List {
-            ForEach(toDos) { toDoItem in HStack {
-                if toDoItem.isImportant {
-                    Text("‼️" + toDoItem.title)
-                } else {
-                    Text(toDoItem.title)
-                }
+                .padding()
                 Spacer()
-                Text(toDoItem.dueDate, format: .dateTime.month().day().year())
+                List {
+                    ForEach(toDos) { toDoItem in HStack {
+                        if toDoItem.isImportant {
+                            Text("‼️" + toDoItem.title)
+                            .foregroundColor(.white)
+                        } else {
+                            Text(toDoItem.title)
+                            .foregroundColor(.white)
+                        }
+                        Spacer()
+                        Text(toDoItem.dueDate, format: .dateTime.month().day().year())
+                        .foregroundColor(.white.opacity(0.8))
+                        }
+                        .padding()
+                        .background(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                        .cornerRadius(10)
+                    }
+                    .onDelete(perform: deleteToDo)
+                }
+                .listStyle(.plain)
+                .background(Color.clear)
+                if showNewTask {
+                    NewToDo(showNewTask: $showNewTask, toDoItem: ToDoItem(title: "", isImportant: false, dueDate: Date.now))
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color(hue: 0.079, saturation: 0.389, brightness: 0.423), lineWidth: 3)
+                        )
+                        .padding(.horizontal)
                 }
             }
-            .onDelete(perform: deleteToDo)
-        }
-        .listStyle(.plain)
-        
-        if showNewTask {
-            NewToDo(showNewTask: $showNewTask, toDoItem: ToDoItem(title: "", isImportant: false, dueDate: Date.now))
         }
     }
     func deleteToDo(at offsets: IndexSet) {

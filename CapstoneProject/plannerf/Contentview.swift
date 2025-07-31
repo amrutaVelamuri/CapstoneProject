@@ -69,9 +69,9 @@ struct ContentView2: View {
                     .bold()
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color(hue: 0.079, saturation: 0.389, brightness: 0.423)) // dark green
+                    .background(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
                     .cornerRadius(10)
-                    .foregroundColor(Color(hue: 0.119, saturation: 0.092, brightness: 1.0)) // yellowish
+                    .foregroundColor(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
                 }
                 .padding()
             }

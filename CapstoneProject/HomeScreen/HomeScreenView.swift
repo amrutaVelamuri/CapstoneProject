@@ -35,6 +35,19 @@ struct HomeScreenView: View {
                                         .padding()
                                 }
                             }
+                            List {
+                                ForEach(sortToDos()) { toDoItem in HStack {
+                                    if toDoItem.isImportant {
+                                        Text("‼️" + toDoItem.title)
+                                    } else {
+                                        Text(toDoItem.title)
+                                    }
+                                    Spacer()
+                                    Text(toDoItem.dueDate, format: .dateTime.month().day().year())
+                                    }
+                                }
+                            }
+                            .listStyle(.plain)
                         }
                     }
                     .padding()
@@ -54,7 +67,7 @@ struct HomeScreenView: View {
                                         .foregroundColor(Color.white)
                                 }
                             }
-                            NavigationLink(destination: Text("Planner")) {
+                            NavigationLink(destination: PlannerView()) {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 20)
                                         .padding()
@@ -70,7 +83,7 @@ struct HomeScreenView: View {
                         .padding(.horizontal)
                         
                         HStack(spacing: -10) {
-                            NavigationLink(destination: Text("blank")) {
+                            NavigationLink(destination: PomodoroTimerView()) {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 20)
                                         .padding()
@@ -104,6 +117,21 @@ struct HomeScreenView: View {
         }
         
     }
+}
+func sortToDos() -> [ToDoItem] {
+    let sortedToDos = toDos.sorted(by: {(s1: ToDoItem, s2: ToDoItem)
+        -> Bool in return s1.dueDate > s2.dueDate})
+    var topThreeToDos : [ToDoItem]
+    if sortedToDos.count == 0 {
+        return []
+    } else if sortedToDos.count == 1 {
+        topThreeToDos = [sortedToDos[0]]
+    } else if sortedToDos.count == 2 {
+        topThreeToDos = [sortedToDos[0], sortedToDos[1]]
+    } else {
+        topThreeToDos = [sortedToDos[0], sortedToDos[1], sortedToDos[2]]
+    }
+    return topThreeToDos
 }
 
 #Preview {

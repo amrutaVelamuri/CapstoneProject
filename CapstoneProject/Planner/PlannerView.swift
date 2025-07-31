@@ -1,13 +1,18 @@
 import SwiftUI
 import SwiftData
 
-struct ContentView2: View {
-    @Query private var planner: [plannerItem]
+struct PlannerView: View {
+    @Query private var planner: [PlannerItem]
     @Environment(\.modelContext) private var context
 
     @State private var newTask = ""
+<<<<<<< HEAD:CapstoneProject/plannerf/Contentview.swift
     @State private var selectedDate = Date.now
     @State private var currentMonth: Date = Date.now
+=======
+    @State private var newDate = Date.now
+    @State private var newTime = Date()
+>>>>>>> main:CapstoneProject/Planner/PlannerView.swift
 
     var body: some View {
         NavigationStack {
@@ -49,6 +54,7 @@ struct ContentView2: View {
                     }
                 }
                 .scrollContentBackground(.hidden)
+<<<<<<< HEAD:CapstoneProject/plannerf/Contentview.swift
                 .background(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
 
                 VStack(spacing: 12) {
@@ -65,6 +71,39 @@ struct ContentView2: View {
                         let newItem = plannerItem(task: newTask, date: selectedDate)
                         context.insert(newItem)
                         newTask = ""
+=======
+                .background(Color(hue: 0.135, saturation: 0.29, brightness: 1.0))
+                .navigationTitle("Planner!!")
+
+                .safeAreaInset(edge: .bottom) {
+                    VStack(alignment: .center, spacing: 20) {
+                        Text("New Task")
+                            .font(.headline)
+                            .foregroundColor(.yellow)
+
+                        TextField("Task", text: $newTask)
+                            .textFieldStyle(.roundedBorder)
+
+                        DatePicker("Date", selection: $newDate, displayedComponents: .date)
+                            .foregroundColor(.yellow)
+                        DatePicker("Hour", selection: $newTime, displayedComponents: .hourAndMinute)
+                            .foregroundColor(.yellow)
+                        
+
+                        Button("Save") {
+                            guard !newTask.isEmpty else { return }
+                            let newItem = PlannerItem(task: newTask, date: newDate, time: newTime)
+                            context.insert(newItem)
+                            newTask = ""
+                            newDate = .now
+                        }
+                        .bold()
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .foregroundColor(.black)
+>>>>>>> main:CapstoneProject/Planner/PlannerView.swift
                     }
                     .bold()
                     .padding()
@@ -174,6 +213,11 @@ struct CalendarGrid: View {
 }
 
 #Preview {
-    ContentView2()
-        .modelContainer(for: plannerItem.self, inMemory: true)
+    PlannerView()
+        .modelContainer(for: PlannerItem.self, inMemory: true)
 }
+<<<<<<< HEAD:CapstoneProject/plannerf/Contentview.swift
+=======
+
+
+>>>>>>> main:CapstoneProject/Planner/PlannerView.swift

@@ -1,31 +1,19 @@
- amruta-dev
-
-//
-//  Contentview.swift
-//  CapstoneProject
-//
-//  Created by Ámbar Aguilar Sánchez on 30/07/25.
-//
- main
 import SwiftUI
 import SwiftData
 
 struct PlannerView: View {
     @Query private var planner: [PlannerItem]
     @Environment(\.modelContext) private var context
- amruta-dev
 
     @State private var newTask = ""
     @State private var selectedDate = Date.now
     @State private var currentMonth: Date = Date.now
-
-    @State private var newTask = ""
- main
     @State private var newDate = Date.now
     @State private var newTime = Date()
 
+    let paleYellow = Color(hue: 0.135, saturation: 0.29, brightness: 1.0)
+
     var body: some View {
- amruta-dev
         NavigationStack {
             VStack(spacing: 0) {
                 CalendarHeader(currentMonth: $currentMonth)
@@ -38,79 +26,94 @@ struct PlannerView: View {
 
                 List {
                     ForEach(tasksForSelectedDate) { item in
-
-        ZStack {
-            Color.brown.ignoresSafeArea()
-
-            NavigationStack {
-                List {
-                    ForEach(planner) { item in
- main
                         HStack {
                             Button {
                                 item.isDone.toggle()
                             } label: {
                                 Image(systemName: item.isDone ? "checkmark.circle.fill" : "circle")
- amruta-dev
-                                    .foregroundColor(item.isDone ? .white : Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
-
                                     .foregroundColor(item.isDone ? .yellow : .white)
- main
                             }
 
                             VStack(alignment: .leading) {
                                 Text(item.task)
                                     .strikethrough(item.isDone)
- amruta-dev
                                     .foregroundColor(item.isDone ? .gray : .black)
 
                                 Text(item.date.formatted(date: .abbreviated, time: .omitted))
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             }
+                            Spacer()
                         }
+                        .padding()
+                        .background(Color.white.opacity(0.2))
+                        .cornerRadius(10)
                     }
-                    .onDelete { indexSet in
-                        for index in indexSet {
-                            let item = tasksForSelectedDate[index]
-                            context.delete(item)
-                        }
-                    }
+                    .onDelete(perform: deleteplannerItem)
                 }
+                .listRowBackground(paleYellow)
                 .scrollContentBackground(.hidden)
-                .background(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
+                .background(paleYellow)
+                .padding(.bottom)
 
-                VStack(spacing: 12) {
-                    Text("Add Task for \(selectedDate.formatted(date: .abbreviated, time: .omitted))")
-                        .font(.headline)
-                        .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
+                .safeAreaInset(edge: .bottom) {
+                    VStack(alignment: .center, spacing: 20) {
+                        Text("New Task")
+                            .font(.headline)
+                            .foregroundColor(paleYellow)
 
-                    TextField("New task", text: $newTask)
-                        .textFieldStyle(.roundedBorder)
-                        .background(.white)
+                        TextField("Task", text: $newTask)
+                            .textFieldStyle(.roundedBorder)
 
-                    Button("Save") {
-                        guard !newTask.isEmpty else { return }
-                        let newItem = PlannerItem(task: newTask, date: selectedDate)
-                        context.insert(newItem)
-                        newTask = ""
+                        VStack(alignment: .leading) {
+                            Text("Date")
+                                .foregroundColor(paleYellow)
+                            DatePicker("", selection: $newDate, displayedComponents: .date)
+                                .labelsHidden()
+                                .foregroundColor(paleYellow)
+                        }
+
+                        VStack(alignment: .leading) {
+                            Text("Hour")
+                                .foregroundColor(paleYellow)
+                            DatePicker("", selection: $newTime, displayedComponents: .hourAndMinute)
+                                .labelsHidden()
+                                .foregroundColor(paleYellow)
+                        }
+
+                        Button("Save") {
+                            guard !newTask.isEmpty else { return }
+                            let newItem = PlannerItem(task: newTask, date: newDate, time: newTime)
+                            context.insert(newItem)
+                            newTask = ""
+                            newDate = .now
+                            newTime = .now
+                        }
+                        .bold()
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .foregroundColor(.black)
                     }
-                    .bold()
                     .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .foregroundColor(.black)
+                    .background(Color.brown)
                 }
-                .padding()
             }
-            .navigationTitle("Planner Calendar")
-            .background(Color(hue: 0.135, saturation: 0.29, brightness: 1.0).ignoresSafeArea())
+            .navigationTitle("Planner")
+            .background(paleYellow.ignoresSafeArea()) // ✅ Full-screen pale yellow background
         }
     }
 
     var tasksForSelectedDate: [PlannerItem] {
         planner.filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }
+    }
+
+    func deleteplannerItem(at offsets: IndexSet) {
+        for index in offsets {
+            let itemToDelete = planner[index]
+            context.delete(itemToDelete)
+        }
     }
 }
 
@@ -198,69 +201,6 @@ struct CalendarGrid: View {
         }
         .padding(.horizontal)
         .padding(.bottom)
-
-                                    .foregroundColor(item.isDone ? .white : .black)
-
-                                Text(item.date, format: .dateTime.month(.wide).day().year())
-                                    .font(.caption)
-                                    .foregroundColor(.white)
-                            }
-
-                            Spacer()
-                        }
-                        .padding()
-                        .background(Color.brown)
-                        .cornerRadius(10)
-                    }
-                    .onDelete(perform: deleteplannerItem)
-                }
-                .padding(.bottom)
-                .scrollContentBackground(.hidden)
-                .background(Color(hue: 0.135, saturation: 0.29, brightness: 1.0))
-                .navigationTitle("Planner!!")
-
-                .safeAreaInset(edge: .bottom) {
-                    VStack(alignment: .center, spacing: 20) {
-                        Text("New Task")
-                            .font(.headline)
-                            .foregroundColor(.yellow)
-
-                        TextField("Task", text: $newTask)
-                            .textFieldStyle(.roundedBorder)
-
-                        DatePicker("Date", selection: $newDate, displayedComponents: .date)
-                            .foregroundColor(.yellow)
-                        DatePicker("Hour", selection: $newTime, displayedComponents: .hourAndMinute)
-                            .foregroundColor(.yellow)
-                        
-
-                        Button("Save") {
-                            guard !newTask.isEmpty else { return }
-                            let newItem = PlannerItem(task: newTask, date: newDate, time: newTime)
-                            context.insert(newItem)
-                            newTask = ""
-                            newDate = .now
-                        }
-                        .bold()
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.white)
-                        .cornerRadius(10)
-                        .foregroundColor(.black)
-                    }
-                    .padding()
-                    .background(Color.brown)
-                }
-            }
-        }
-    }
-
-    func deleteplannerItem(at offsets: IndexSet) {
-        for index in offsets {
-            let itemToDelete = planner[index]
-            context.delete(itemToDelete)
-        }
- main
     }
 }
 
@@ -268,8 +208,3 @@ struct CalendarGrid: View {
     PlannerView()
         .modelContainer(for: PlannerItem.self, inMemory: true)
 }
- amruta-dev
-
-
-
- main

@@ -14,63 +14,66 @@ struct FlashcardDeckView: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 24) {
-                if cards.isEmpty {
-                    Text("No flashcards yet.")
-                        .font(.title2)
-                        .foregroundColor(.gray)
-                } else {
-                    Flashcards(card: cards[currentIndex])
-                        .background(cardColor)
-                        .cornerRadius(20)
-                        .padding()
-                    
-                    HStack {
-                        Button(action: {
-                            if currentIndex > 0 {
-                                currentIndex -= 1
+            ZStack {
+                backgroundColor.ignoresSafeArea()
+
+                VStack(spacing: 24) {
+                    if cards.isEmpty {
+                        Text("No flashcards yet.")
+                            .font(.title2)
+                            .foregroundColor(.gray)
+                    } else {
+                        Flashcards(card: cards[currentIndex])
+                            .background(cardColor)
+                            .cornerRadius(20)
+                            .padding()
+
+                        HStack {
+                            Button(action: {
+                                if currentIndex > 0 {
+                                    currentIndex -= 1
+                                }
+                            }) {
+                                Image(systemName: "chevron.left")
+                                    .font(.title2)
+                                    .foregroundColor(cardColor)
                             }
-                        }) {
-                            Image(systemName: "chevron.left")
-                                .font(.title2)
-                                .foregroundColor(cardColor)
-                        }
-                        .disabled(currentIndex == 0)
+                            .disabled(currentIndex == 0)
 
-                        Spacer()
+                            Spacer()
 
-                        Button(role: .destructive) {
-                            deleteCard(at: IndexSet(integer: currentIndex))
-                        } label: {
-                            Image(systemName: "trash")
-                                .font(.title2)
-                                .foregroundStyle(.red)
-                        }
-
-                        Spacer()
-
-                        Button(action: {
-                            if currentIndex < cards.count - 1 {
-                                currentIndex += 1
+                            Button(role: .destructive) {
+                                deleteCard(at: IndexSet(integer: currentIndex))
+                            } label: {
+                                Image(systemName: "trash")
+                                    .font(.title2)
+                                    .foregroundStyle(.red)
                             }
-                        }) {
-                            Image(systemName: "chevron.right")
-                                .font(.title2)
-                                .foregroundColor(cardColor)
+
+                            Spacer()
+
+                            Button(action: {
+                                if currentIndex < cards.count - 1 {
+                                    currentIndex += 1
+                                }
+                            }) {
+                                Image(systemName: "chevron.right")
+                                    .font(.title2)
+                                    .foregroundColor(cardColor)
+                            }
+                            .disabled(currentIndex == cards.count - 1)
                         }
-                        .disabled(currentIndex == cards.count - 1)
+                        .padding(.horizontal, 40)
+
+                        Text("Card \(currentIndex + 1) of \(cards.count)")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
                     }
-                    .padding(.horizontal, 40)
 
-                    Text("Card \(currentIndex + 1) of \(cards.count)")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
+                    Spacer()
                 }
-
-                Spacer()
+                .padding()
             }
-            .padding()
-            .background(backgroundColor.ignoresSafeArea())
             .navigationTitle("Flashcards")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -97,6 +100,11 @@ struct FlashcardDeckView: View {
             let card = cards[offset]
             context.delete(card)
         }
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save context after deleting card: \(error)")
+        }
         if currentIndex >= cards.count - 1 {
             currentIndex = max(0, currentIndex - 1)
         }
@@ -113,6 +121,7 @@ struct FlashcardDeckView: View {
         let context = container.mainContext
         context.insert(Card(question: "What is the capital of France?", answer: "Paris"))
         context.insert(Card(question: "What is 9 × 6?", answer: "54"))
+        try? context.save()
 
         return FlashcardDeckView()
             .modelContainer(container)

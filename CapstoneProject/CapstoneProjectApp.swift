@@ -6,7 +6,7 @@ struct plannerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: [PlannerItem.self, ToDoItem.self, Card.self])
         }
-        .modelContainer(for: [PlannerItem.self, ToDoItem.self, Card.self])
     }
 }

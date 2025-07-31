@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var context
+    @Query var toDos: [ToDoItem]
     var body: some View {
         NavigationStack {
             ZStack() {

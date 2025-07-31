@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HomeScreenView: View {
+    @Environment(\.modelContext) private var context
+    @Query var toDos: [ToDoItem]
     var body: some View {
         NavigationStack {
             ZStack {
@@ -35,19 +38,27 @@ struct HomeScreenView: View {
                                         .padding()
                                 }
                             }
-                            List {
+                            /*List {
                                 ForEach(sortToDos()) { toDoItem in HStack {
                                     if toDoItem.isImportant {
                                         Text("‼️" + toDoItem.title)
+                                        .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
                                     } else {
                                         Text(toDoItem.title)
+                                        .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423))
                                     }
                                     Spacer()
                                     Text(toDoItem.dueDate, format: .dateTime.month().day().year())
+                                    .foregroundColor(Color(hue: 0.079, saturation: 0.389, brightness: 0.423).opacity(0.8))
                                     }
+                                    .padding()
+                                    .background(Color(hue: 0.119, saturation: 0.092, brightness: 1.0))
+                                    .cornerRadius(10)
                                 }
                             }
                             .listStyle(.plain)
+                            .background(Color.clear)
+                             */
                         }
                     }
                     .padding()
@@ -118,8 +129,8 @@ struct HomeScreenView: View {
         
     }
 }
-func sortToDos() -> [ToDoItem] {
-    let sortedToDos = toDos.sorted(by: {(s1: ToDoItem, s2: ToDoItem)
+/*func sortToDos() -> [ToDoItem] {
+    let sortedToDos = toDoList.toDos.sorted(by: {(s1: ToDoItem, s2: ToDoItem)
         -> Bool in return s1.dueDate > s2.dueDate})
     var topThreeToDos : [ToDoItem]
     if sortedToDos.count == 0 {
@@ -133,7 +144,7 @@ func sortToDos() -> [ToDoItem] {
     }
     return topThreeToDos
 }
-
+*/
 #Preview {
     HomeScreenView()
 }

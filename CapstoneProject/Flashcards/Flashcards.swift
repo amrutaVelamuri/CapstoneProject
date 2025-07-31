@@ -4,9 +4,8 @@ struct Flashcards: View {
     @State private var isFlipped = false
     let card: Card
 
-    // App theme colors
-    let cardColor = Color(hue: 0.079, saturation: 0.389, brightness: 0.423) // brown
-    let textColor = Color(hue: 0.119, saturation: 0.092, brightness: 1.0)   // yellow
+    let cardColor = Color(hue: 0.079, saturation: 0.389, brightness: 0.423)
+    let textColor = Color(hue: 0.119, saturation: 0.092, brightness: 1.0)
 
     var body: some View {
         VStack {
@@ -27,7 +26,7 @@ struct Flashcards: View {
                 .padding()
         }
         .padding()
-        .onChange(of: card) { _ in
+        .onChange(of: card) {
             isFlipped = false
         }
     }

@@ -8,9 +8,9 @@
 import SwiftUI
 import SwiftData
 
+@Query var toDos: [ToDoItem]
 struct ToDoList: View {
     @State private var showNewTask = false
-    @Query var toDos: [ToDoItem]
     @Environment(\.modelContext) var modelContext
     var body: some View {
         ZStack {

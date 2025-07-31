@@ -25,13 +25,13 @@ struct ContentView2: View {
                                 item.isDone.toggle()
                             } label: {
                                 Image(systemName: item.isDone ? "checkmark.circle.fill" : "circle")
-                                    .foregroundColor(item.isDone ? .green : .white)
+                                    .foregroundColor(item.isDone ? .yellow : .white)
                             }
 
                             VStack(alignment: .leading) {
                                 Text(item.task)
                                     .strikethrough(item.isDone)
-                                    .foregroundColor(item.isDone ? .gray : .white)
+                                    .foregroundColor(item.isDone ? .white : .black)
 
                                 Text(item.date, format: .dateTime.month(.wide).day().year())
                                     .font(.caption)
@@ -46,20 +46,23 @@ struct ContentView2: View {
                     }
                     .onDelete(perform: deleteplannerItem)
                 }
+                .padding(.bottom)
                 .scrollContentBackground(.hidden)
-                .padding(.horizontal)
-                .navigationTitle("Planner! :)")
+                .background(Color(hue: 0.135, saturation: 0.29, brightness: 1.0))
+                .navigationTitle("Planner!!")
 
                 .safeAreaInset(edge: .bottom) {
                     VStack(alignment: .center, spacing: 20) {
                         Text("New Task")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundColor(.yellow)
 
                         TextField("Task", text: $newTask)
                             .textFieldStyle(.roundedBorder)
 
                         DatePicker("Date", selection: $newDate, displayedComponents: .date)
+                            .foregroundColor(.yellow)
+                        
 
                         Button("Save") {
                             guard !newTask.isEmpty else { return }
@@ -73,6 +76,7 @@ struct ContentView2: View {
                         .frame(maxWidth: .infinity)
                         .background(Color.white)
                         .cornerRadius(10)
+                        .foregroundColor(.black)
                     }
                     .padding()
                     .background(Color.brown)

@@ -26,11 +26,22 @@ struct PlannerView: View {
                         paleYellow: paleYellow,
                         brown: brown
                     )
-
+                    
                     Text("Tasks for \(selectedDate.formatted(date: .abbreviated, time: .omitted))")
                         .font(.headline)
                         .foregroundColor(brown)
                         .padding(.top)
+
+                    Button("Delete All Tasks for This Day") {
+                        deleteTasksForSelectedDate()
+                    }
+                    .bold()
+                    .padding(.vertical, 6)
+                    .padding(.horizontal)
+                    .background(Color.yellow.opacity(0.5))
+                    .cornerRadius(10)
+                    .foregroundColor(.white)
+
 
                     VStack(spacing: 10) {
                         ForEach(tasksForSelectedDate) { item in
@@ -39,13 +50,13 @@ struct PlannerView: View {
                                     item.isDone.toggle()
                                 } label: {
                                     Image(systemName: item.isDone ? "checkmark.circle.fill" : "circle")
-                                        .foregroundColor(item.isDone ? paleYellow : .white)
+                                        .foregroundColor(item.isDone ? paleYellow : .yellow)
                                 }
 
                                 VStack(alignment: .leading) {
                                     Text(item.task)
                                         .strikethrough(item.isDone)
-                                        .foregroundColor(item.isDone ? .gray : .black)
+                                        .foregroundColor(item.isDone ? .black : .black)
 
                                     Text(item.date.formatted(date: .abbreviated, time: .omitted))
                                         .font(.caption)
@@ -85,6 +96,7 @@ struct PlannerView: View {
                             DatePicker("", selection: $newTime, displayedComponents: .hourAndMinute)
                                 .labelsHidden()
                                 .foregroundColor(paleYellow)
+                            
                         }
 
                         Button("Save") {
@@ -117,6 +129,13 @@ struct PlannerView: View {
     var tasksForSelectedDate: [PlannerItem] {
         planner.filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }
     }
+    
+    func deleteTasksForSelectedDate() {
+        for item in tasksForSelectedDate {
+            context.delete(item)
+        }
+    }
+
 
     func deleteplannerItem(at offsets: IndexSet) {
         for index in offsets {
